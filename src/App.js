@@ -1,22 +1,29 @@
 import React, { useState } from "react";
 import Navbar from "./components/Navbar";
 import "./App.css";
-// import About from './components/About';
+//import About from './components/About';
 import TextForm from "./components/TextForm";
 import Alert from "./components/Alert";
+/*
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+} from "react-router-dom";
+*/
 
 function App() {
   const [mode, setMode] = useState('light');
   const [alert, setAlert] = useState(null);
 
-  const displayAlert = (message, type) =>{
-      setAlert({
-        msg : message,
-        type : type
-      })
-      setTimeout(() =>{
-        setAlert(null);
-    },3000);
+  const displayAlert = (message, type) => {
+    setAlert({
+      msg: message,
+      type: type
+    })
+    setTimeout(() => {
+      setAlert(null);
+    }, 3000);
   }
 
   const toggleMode = () => {
@@ -33,12 +40,15 @@ function App() {
 
   return (
     <>
-      <Navbar title="TextUtils" mode={mode} toggleMode={toggleMode} />
-      <Alert alert = {alert}/>
-      <div className="container my-3">
-        <TextForm displayAlert = {displayAlert} heading="Enter the text" mode={mode} />
-        {/* <About/> */}
-      </div>
+      {/*<Router>*/}
+        <Navbar title="TextUtils" mode={mode} toggleMode={toggleMode} />
+        <Alert alert={alert} />
+        <div className="container my-3">
+          {/*<Routes>*/}
+            <TextForm displayAlert={displayAlert} heading="Enter the text" mode={mode} />
+          {/*</Routes>*/}
+        </div>
+      {/*</Router>*/}
     </>
   );
 }

@@ -12,7 +12,6 @@ export default function TextForm(props) {
 
   const handleLowClick = () => {
     setText(text.toLowerCase());
-    
     props.displayAlert("Converted to lowercase", "success");
   };
 
@@ -23,7 +22,6 @@ export default function TextForm(props) {
 
   const handleReverseText = () => {
     setText(text.split("").reverse().join(""));
-    
     props.displayAlert("Reversed the text", "success");
   };
 
@@ -53,6 +51,39 @@ export default function TextForm(props) {
     setText(text.replaceAll(fWord, rWord));
     props.displayAlert("Replaced the text", "success");
   };
+
+  const handleTitleCase = () => {
+    setText(text.replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase())));
+    props.displayAlert("Converted to Title Case", "success");
+  };
+
+  const handleSentenceCase = () => {
+    setText(text.toLowerCase().replace(/(^\s*\w|[.!?]\s*\w)/g, (c) => c.toUpperCase()));
+    props.displayAlert("Converted to Sentence Case", "success");
+  };
+
+  const handleCopyText = () => {
+    navigator.clipboard.writeText(text);
+    props.displayAlert("Text copied to clipboard", "success");
+  };
+
+  const handleDownloadText = () => {
+    const element = document.createElement("a");
+    const file = new Blob([text], { type: "text/plain" });
+    element.href = URL.createObjectURL(file);
+    element.download = "text.txt";
+    document.body.appendChild(element);
+    element.click();
+    props.displayAlert("Text downloaded as file", "success");
+  };
+
+  const countVowelsAndConsonants = () => {
+    const vowels = text.match(/[aeiouAEIOU]/g)?.length || 0;
+    const consonants = text.match(/[^aeiouAEIOU\s]/g)?.length || 0;
+    return { vowels, consonants };
+  };
+
+  const { vowels, consonants } = countVowelsAndConsonants();
 
   return (
     <>
@@ -103,14 +134,30 @@ export default function TextForm(props) {
         <button className="btn btn-primary mx-2" onClick={handleExtraSpaces}>
           Remove Extra Spaces
         </button>
+        <button className="btn btn-primary mx-2" onClick={handleTitleCase}>
+          Title Case
+        </button>
+        <button className="btn btn-primary mx-2" onClick={handleSentenceCase}>
+          Sentence Case
+        </button>
         <button type="submit" onClick={speak} className="btn btn-warning mx-2 my-2">
           Speak
+        </button>
+        <button className="btn btn-primary mx-2" onClick={handleCopyText}>
+          Copy Text
+        </button>
+        <button className="btn btn-primary mx-2" onClick={handleDownloadText}>
+          Download Text
         </button>
       </div>
       <div className="container my-4" style={{ color: props.mode === 'dark' ? 'white' : '#042743' }}>
         <h1>Your Text Summary</h1>
-        <p>{text.split(/\s+/).filter((element) => element.length !== 0).length} words and {text.length} characters</p>
-        <p>Minutes Needed To Read: {0.008 * text.split(" ").filter((element) => element.length !== 0).length}</p>
+        <p>{
+            text.split(/\s+/).filter((element) => element.trim().length > 0).length } words and {text.split('').filter((char) => !/\s/.test(char)).length} characters
+        </p>
+        <p>Minutes Needed To Read: { 0.008 * text.split(/\s+/).filter((element) => element.trim().length > 0).length}
+        </p>
+        <p>Vowels: {vowels}, Consonants: {consonants}</p>
         <h2>Preview</h2>
         <p>{text}</p>
       </div>
