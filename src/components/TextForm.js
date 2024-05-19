@@ -64,6 +64,7 @@ export default function TextForm(props) {
 
   const handleCopyText = () => {
     navigator.clipboard.writeText(text);
+    document.getSelection().removeAllRanges();
     props.displayAlert("Text copied to clipboard", "success");
   };
 
@@ -94,7 +95,7 @@ export default function TextForm(props) {
             className="form-control"
             value={text}
             onChange={handleOnChange}
-            style={{ backgroundColor: props.mode === 'dark' ? 'grey' : 'white', color: props.mode === 'dark' ? 'white' : '#042743' }}
+            style={{ backgroundColor: props.mode === 'dark' ? '#13466e' : 'white', color: props.mode === 'dark' ? 'white' : '#042743' }}
             id="textBox"
             rows="8"
             placeholder="Enter your text here"
@@ -116,37 +117,37 @@ export default function TextForm(props) {
             placeholder="Word to replace"
           />
         </div>
-        <button className="btn btn-primary mx-2" onClick={handleUpClick}>
+        <button disabled = {text.length === 0} className="btn btn-primary mx-2 my-2" onClick={handleUpClick}>
           Convert to Uppercase
         </button>
-        <button className="btn btn-primary mx-2" onClick={handleLowClick}>
+        <button disabled = {text.length === 0} className="btn btn-primary mx-2 my-2" onClick={handleLowClick}>
           Convert to Lowercase
         </button>
-        <button className="btn btn-secondary mx-2" onClick={handleClearText}>
+        <button disabled = {text.length === 0} className="btn btn-secondary mx-2 my-2" onClick={handleClearText}>
           Clear Text
         </button>
-        <button className="btn btn-secondary mx-2" onClick={handleReverseText}>
+        <button disabled = {text.length === 0} className="btn btn-secondary mx-2 my-2" onClick={handleReverseText}>
           Reverse Text
         </button>
-        <button className="btn btn-primary mx-2" onClick={handleReplaceClick}>
+        <button disabled = {text.length === 0} className="btn btn-primary mx-2 my-2" onClick={handleReplaceClick}>
           Replace Text
         </button>
-        <button className="btn btn-primary mx-2" onClick={handleExtraSpaces}>
+        <button disabled = {text.length === 0} className="btn btn-primary mx-2 my-2" onClick={handleExtraSpaces}>
           Remove Extra Spaces
         </button>
-        <button className="btn btn-primary mx-2" onClick={handleTitleCase}>
+        <button disabled = {text.length === 0} className="btn btn-primary mx-2 my-2" onClick={handleTitleCase}>
           Title Case
         </button>
-        <button className="btn btn-primary mx-2" onClick={handleSentenceCase}>
+        <button disabled = {text.length === 0} className="btn btn-primary mx-2 my-2" onClick={handleSentenceCase}>
           Sentence Case
         </button>
-        <button type="submit" onClick={speak} className="btn btn-warning mx-2 my-2">
+        <button disabled = {text.length === 0} type="submit" onClick={speak} className="btn btn-warning mx-2 my-2">
           Speak
         </button>
-        <button className="btn btn-primary mx-2" onClick={handleCopyText}>
+        <button disabled = {text.length === 0} className="btn btn-primary mx-2 my-2" onClick={handleCopyText}>
           Copy Text
         </button>
-        <button className="btn btn-primary mx-2" onClick={handleDownloadText}>
+        <button disabled = {text.length === 0} className="btn btn-primary mx-2 my-2" onClick={handleDownloadText}>
           Download Text
         </button>
       </div>
@@ -159,7 +160,7 @@ export default function TextForm(props) {
         </p>
         <p>Vowels: {vowels}, Consonants: {consonants}</p>
         <h2>Preview</h2>
-        <p>{text}</p>
+        <p>{text.length>0 ? text: "Nothing to preview"}</p>
       </div>
     </>
   );
